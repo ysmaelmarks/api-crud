@@ -28,7 +28,8 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
+      tableName: "Matriculas",
     });
   },
   async down(queryInterface, Sequelize) {

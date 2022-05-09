@@ -18,7 +18,8 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
+      tableName: "Niveis",
     });
   },
   async down(queryInterface, Sequelize) {
