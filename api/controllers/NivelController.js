@@ -1,5 +1,4 @@
 const database = require('../models')
-
 const Services = require ('../services/Services')
 const niveisService = new Services('Pessoas')
 

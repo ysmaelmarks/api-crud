@@ -1,5 +1,5 @@
-/* const database = require('../models');
-const Sequelize = require('sequelize'); */
+const database = require('../models');
+const Sequelize = require('sequelize');
 
 const {PessoasServices} = require ('../services')
 const pessoasService = new PessoasServices()
@@ -63,9 +63,9 @@ class PessoaController{
     }
 
     static async apagaPessoa(req, res){
-        const {id} = req.params
+        const { id } = req.params
         try{
-            await database.Pessoas.destroy({where: {id: Number(id)}})
+            await database.Pessoas.destroy({where: { id: Number(id)}})
             return res.status(200).json({mensage:`id ${id} deletado`})
         }catch(error){
             return res.status(500).json(error.message);   
