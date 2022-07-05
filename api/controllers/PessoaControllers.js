@@ -25,6 +25,71 @@ class PessoaController{
         }
     }
 
+    //usa a pagina principal para buscar dados através do Query
+    //mostra a pagina e o limite de registros
+    static async pegaPessoasPagina(req, res){
+        try{
+        const limit = parseInt(req.query.limit);
+        const page = parseInt(req.query.page);
+        const offset = (page - 1) * limit;
+        const teste = {}
+
+        if(page < offset || page > offset){
+        teste.proximo = {
+            pagina: page+1
+        }}
+
+        if(page > 1){
+        teste.anterior = {
+            pagina: page-1,
+        }
+        }
+        const pessoas = await database.Pessoas.findAll(
+            {
+            limit: Number(limit),
+            offset: Number(offset)
+        }
+        );
+
+        teste.Alunos = pessoas
+
+        return res.status(200).json(teste);
+        //não retorna a paginação com o .Alunos
+        }
+        catch(error){
+            return res.status(500).json(error.message)
+        }
+    }
+
+/* 
+        const pessoas = await database.Pessoas.findAll({
+            where: {
+            },
+            limit: Number(limit),
+            offset: Number(offset)
+        })
+            return res.json(pessoas)
+        }catch(error){
+            return res.status(500).json(error.message)
+    }
+    } */
+    
+        //busca pelo nome da pessoa através do Query
+        static async buscaPessoas(req, res){
+            const nome = req.query.nome;
+            try{
+                const pessoas = await database.Pessoas.findAll({
+                    where: {
+                        'nome':nome
+                    }
+                })
+                return res.status(200).json(pessoas)
+            }catch(error){
+                return res.status(500).json(error.message)
+            }
+        }
+
+
     static async pegaUmaPessoa(req, res){
         const {id} = req.params;
         try{
@@ -54,7 +119,7 @@ class PessoaController{
         const novasInfo = req.body;
         try{
             await database.Pessoas.update(novasInfo, {where: {id: Number(id)}})
-            const pessoaAtualizada = await database.Pessoas.findOne({where: {id:Numbe(id)}});
+            const pessoaAtualizada = await database.Pessoas.findOne({where: {id:Number(id)}});
 
             return res.status(200).json(pessoaAtualizada);
         }catch(error){
